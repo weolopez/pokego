@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="#0d1117">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pokemon GO Plus +"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#ffd700"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BLE Emulator"
+        android:textSize="14sp"
+        android:textColor="#8b949e"
+        android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stopped"
+        android:textSize="16sp"
+        android:textColor="#c9d1d9"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btnToggle"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:text="Start"
+        android:textSize="16sp"
+        android:backgroundTint="#1fb6ff"/>
+
+</LinearLayout>
