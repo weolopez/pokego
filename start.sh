@@ -5,4 +5,4 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
-exec python3 -m goplusplus "$@"
+exec python3 -m goplusplus.main "$@"

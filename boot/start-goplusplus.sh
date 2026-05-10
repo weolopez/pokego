@@ -5,7 +5,15 @@
 # Wait for system to settle after reboot
 sleep 10
 
-EMULATOR_DIR="$HOME/goplusplus-plus"
+# Prefer current repo layout; keep legacy fallback for older installs.
+if [ -d "$HOME/pokego/plus" ]; then
+	EMULATOR_DIR="$HOME/pokego/plus"
+elif [ -d "$HOME/goplusplus-plus" ]; then
+	EMULATOR_DIR="$HOME/goplusplus-plus"
+else
+	EMULATOR_DIR="$HOME/pokego/plus"
+fi
+
 LOG="$HOME/goplusplus.log"
 
 cd "$EMULATOR_DIR" || exit 1

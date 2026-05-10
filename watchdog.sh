@@ -7,7 +7,7 @@ cd "$SCRIPT_DIR"
 
 while true; do
     echo "$(date '+%Y-%m-%d %H:%M:%S') [watchdog] Starting emulator..."
-    python3 -m goplusplus "$@"
+    python3 -m goplusplus.main "$@"
     echo "$(date '+%Y-%m-%d %H:%M:%S') [watchdog] Emulator exited (code $?). Restarting in 5s..."
     sleep 5
 done
