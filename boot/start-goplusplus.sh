@@ -18,7 +18,7 @@ LOG="$HOME/goplusplus.log"
 
 cd "$EMULATOR_DIR" || exit 1
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') [boot] Starting GO Plus + emulator" >> "$LOG"
-bash watchdog.sh >> "$LOG" 2>&1 &
+echo "$(date '+%Y-%m-%d %H:%M:%S') [boot] Starting GO Plus + Android service" >> "$LOG"
+bash start.sh >> "$LOG" 2>&1 &
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') [boot] Started (PID $!)" >> "$LOG"

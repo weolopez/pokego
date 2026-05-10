@@ -1,30 +1,33 @@
 # Pokemon GO Plus + BLE Emulator
 
-Emulates a Pokemon GO Plus + accessory over Bluetooth LE on an Android phone
-running **Termux**. A second phone running Pokemon GO can pair to it and trigger
-auto-catch / auto-spin just as if the real hardware were present.
+Emulates a Pokemon GO Plus + accessory over Bluetooth LE on an Android phone.
+The BLE peripheral implementation runs in the native Android app (`plus/android`).
+Termux scripts are helper wrappers that launch the installed APK.
 
 ---
 
 ## Requirements
 
-- Android phone with Termux (installed from GitHub APK, arm64-v8a)
-- Termux:Boot (for auto-start on reboot)
+- Android phone with Bluetooth LE
+- GO Plus + Android APK installed (`com.pokego.plus`)
+- Optional: Termux + Termux:Boot (only for script-based launch on boot)
 - A real Pokemon GO Plus or GO Plus+ to extract device keys from (see below)
-- Python 3.10+, `bless`, `pycryptodome`
 
 ---
 
 ## Installation
 
 ```bash
-# 1. Clone the project onto your Android phone
+# 1. Clone the project onto your Android phone (optional if using release APK only)
 git clone https://github.com/weolopez/pokego ~/pokego
 cd ~/pokego/plus
 
-# 2. Run setup (installs deps, bluez, Termux:Boot hook)
+# 2. Run setup (installs helper tools and prints APK/key setup steps)
 bash setup.sh
 ```
+
+Install the APK from:
+https://github.com/weolopez/pokego/releases
 
 ---
 
@@ -72,17 +75,14 @@ export GOPLUSPLUS_FLASH_DATA=...
 ## Usage
 
 ```bash
-# One-shot foreground launch
+# Start from Termux (launches app + foreground service)
 bash start.sh
 
-# Persistent (auto-restart on crash)
+# Compatibility wrapper (currently same as start.sh)
 bash watchdog.sh
-
-# Options
-bash start.sh --no-auto-catch   # disable Pokemon catching
-bash start.sh --no-auto-spin    # disable PokéStop spinning
-bash start.sh --debug           # verbose logging
 ```
+
+First run: open the app and grant Bluetooth/location/storage permissions.
 
 ---
 
@@ -136,10 +136,8 @@ with button-press notifications to trigger catches and spins.
 1. **Auth requires real device keys.** No synthetic key generation is known to
    work against Niantic's server-side validation. See REFERENCES.md.
 
-2. **BLE peripheral mode on Android+Termux is uncertain.** BlueZ via Termux
-   (`pkg install bluez`) may or may not expose `bluetoothd` in peripheral mode
-   on your specific Android version. Run `check_ble.py` to verify.
-   If it fails, use the native Android APK path (Phase 3 in plan.md).
+2. **Python BLE mode is disabled on Android/Termux.** BLE peripheral mode is
+  provided by the native Android app in `android/`.
 
 3. **GO Plus+ vs original GO Plus.** The GATT service UUIDs and SFIDA protocol
    are assumed identical (based on `Mygod/pogoplusle` code analysis).
@@ -161,13 +159,14 @@ pytest tests/ -v
 
 ```
 plus/
-  goplusplus/        Python package
+  goplusplus/        Python crypto/protocol reference code
+  android/           Native Android BLE emulator (runtime path)
   tests/             Unit tests
-  boot/              Termux:Boot auto-start script (copied by setup.sh)
+  boot/              Termux:Boot script (launches Android app via start.sh)
   plan.md            Full implementation plan
-  setup.sh           One-command Termux setup
-  start.sh           Launch script
-  watchdog.sh        Auto-restart wrapper
+  setup.sh           Termux helper setup + APK/key instructions
+  start.sh           Starts installed Android app/service from Termux
+  watchdog.sh        Compatibility wrapper for start.sh
   check_ble.py       BLE environment checker
   requirements.txt
   README.md
